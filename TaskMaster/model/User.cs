@@ -8,8 +8,8 @@ namespace TaskMaster.model
 {
     public class User
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
         public List<TodoTask> Tasks { get; set; }
 
         public User(string username, string password)
@@ -18,5 +18,6 @@ namespace TaskMaster.model
             Password = password;
             Tasks = new List<TodoTask>();
         }
+       
     }
 }

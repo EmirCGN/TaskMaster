@@ -6,10 +6,15 @@ class Program
 {
     static void Main(string[] args)
     {
-        DatabaseManager dbManager = new DatabaseManager();
-        UserInterface userInterface = new UserInterface();
-        TaskController taskController = new TaskController(dbManager, userInterface); 
 
-        userInterface.RunMainMenu();
+        using(var dbContext = new DatabaseManager())
+        {
+            dbContext.InitializeDatabase();
+        }
+
+        DatabaseManager dbManager = new DatabaseManager();
+        UserInterface userInterface = new UserInterface(null);
+
+        UserInterface.RunMainMenu();
     }
 }

@@ -14,6 +14,6 @@ namespace TaskMaster.model
         public string Status { get; set; } = null!;
         public int Priority { get; set; } 
         public string Notes { get; set; } = null!;
-        public bool Completed { get; set; }
+        public bool Completed { get; set; }//Gibt an ob die Aufgabe abgeschlossen ist oder nicht
     }
 }

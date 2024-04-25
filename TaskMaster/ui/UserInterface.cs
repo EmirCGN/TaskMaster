@@ -14,7 +14,7 @@ namespace TaskMaster.ui
         private static int selectedOptionIndex = 0;
         private readonly ConsoleColor defaultColor;
         private readonly User currentUser;
-        private static DatabaseManager databaseManager = new DatabaseManager();
+        private static DatabaseManager databaseManager = new DatabaseManager(); // Instanz des Datenbankmanagers
         #endregion
 
         #region Constructors
@@ -65,7 +65,7 @@ namespace TaskMaster.ui
             // Gib jede Zeile des Logos aus, zentriert in der Konsolenbreite
             foreach (string line in logoLines)
             {
-                Console.WriteLine(new string(' ', padding) + line);
+                Console.WriteLine(new string(' ', padding) + line); // Ausgeben des zentrierten Logos
             }
 
             Console.WriteLine();
@@ -77,20 +77,20 @@ namespace TaskMaster.ui
         private static void PrintMenuOptions()
         {
 
-            string[] menuOptions = { "Login", "Register", "Exit" };
-            int longestOptionLength = menuOptions.Max(option => option.Length);
-            int padding = (Console.WindowWidth - longestOptionLength) / 2;
-            for (int i = 0; i < menuOptions.Length; i++)
+            string[] menuOptions = { "Login", "Register", "Exit" }; // Menüoptionen definieren
+            int longestOptionLength = menuOptions.Max(option => option.Length); // bestimmt die längste Option
+            int padding = (Console.WindowWidth - longestOptionLength) / 2; // Einrückung für Zentrierung berechnen
+            for (int i = 0; i < menuOptions.Length; i++) // wiederholt über jede Menüoption um es zu zeigen
             {
                 if (i == selectedOptionIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(new string(' ', padding));
+                    Console.Write(new string(' ', padding));// Fügt Leerzeichen für die Ausrichtung hinzu.
                     Console.Write("> ");
                 }
                 else
                 {
-                    Console.Write(new string(' ', padding + 2));
+                    Console.Write(new string(' ', padding + 2)); // Fügt Leerzeichen hinzu, um nicht-ausgewählte Optionen auszurichten.
                 }
                 Console.WriteLine($"{i + 1}. {menuOptions[i]}");
                 Console.ResetColor();
@@ -100,7 +100,7 @@ namespace TaskMaster.ui
         private static void HandleUserInput()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-            switch (keyInfo.Key)
+            switch (keyInfo.Key) // wechselt je nach gedrückter taste zwischen den
             {
                 case ConsoleKey.UpArrow:
                     if (selectedOptionIndex > 0)
@@ -150,17 +150,17 @@ namespace TaskMaster.ui
             do
             {
                 key = Console.ReadKey(true);
-                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)// Überprüfen, ob die gedrückte Taste weder Backspace noch Enter ist
                 {
-                    password += key.KeyChar;
-                    Console.Write("*");
+                    password += key.KeyChar;// Hinzufügen des Zeichens zum Passwort
+                    Console.Write("*");// Ausgeben eines Sternzeichens als Platzhalter für das Passwortzeichen
                 }
-                else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                else if (key.Key == ConsoleKey.Backspace && password.Length > 0) // Wenn Backspace gedrückt wurde und das Passwort Zeichen enthält
                 {
-                    password = password.Substring(0, (password.Length - 1));
+                    password = password.Substring(0, (password.Length - 1));// Entfernen des letzten Zeichens vom Passwort
                     Console.Write("\b \b");
                 }
-            } while (key.Key != ConsoleKey.Enter);
+            } while (key.Key != ConsoleKey.Enter);// Wiederholt den Vorgang, bis die Enter-Taste gedrückt wird
             Console.WriteLine();
             return password;
         }
@@ -175,27 +175,27 @@ namespace TaskMaster.ui
                 Console.WriteLine("Login:");
                 Console.Write("Username: ");
                 string username = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(username))
+                if (string.IsNullOrWhiteSpace(username))// Überprüft ob das Feld für den Benutzernamen leer ist
                 {
                     Console.WriteLine("Username cannot be empty. Please try again.");
                     return;
                 }
                 Console.Write("Password: ");
                 string password = ReadPassword();
-                if (string.IsNullOrWhiteSpace(password))
+                if (string.IsNullOrWhiteSpace(password))// Überprüft ob das Feld für das Passwort leer ist
                 {
                     Console.WriteLine("Password cannot be empty. Please try again.");
                     return;
                 }
 
-                // Qualifizieren Sie den Typnamen DatabaseManager vor dem Aufruf der Methode CheckLoginAsync
+                // Aufruf der Methode zur Überprüfung der Login-Daten
                 bool loggedIn = await DatabaseManager.CheckLoginAsync(username, password);
 
                 if (loggedIn)
                 {
                     Console.WriteLine($"Welcome back, {username}!");
                     await Task.Delay(1000);
-                    UserInterface chatUI = new UserInterface(new User(username, password));
+                    UserInterface chatUI = new UserInterface(new User(username, password)); // Erstellung der Benutzeroberfläche für den eingeloggten Benutzer
                     chatUI.RunTaskMenu();
                 }
                 else
@@ -223,7 +223,7 @@ namespace TaskMaster.ui
                 Console.Write("Password: ");
                 string password = Console.ReadLine();
 
-                // Qualifizieren Sie den Typnamen DatabaseManager vor dem Aufruf der Methode SaveUserAsync
+                 // Aufruf der Methode zur Überprüfung der Login-Daten
                 await DatabaseManager.SaveUserAsync(username, password);
 
                 Console.WriteLine($"User successfully registered! {username}");

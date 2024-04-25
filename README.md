@@ -74,3 +74,58 @@ classDiagram
     Program -- DatabaseManager
     Program -- UserInterface
 ```
+
+So läuft die Datenbank bei meinem Projekt:
+
+```mermaid
+classDiagram
+    class DatabaseManager {
+        +DbContext Users
+        +string connectionString
+        +InitializeDatabase()
+        +CreateTablesIfNotExists()
+        +SaveUserAsync()
+        +CheckLoginAsync()
+        +DeleteUserAsync()
+        +GetUserByUsername()
+        +AddTaskAsync()
+        +UpdateTaskAsync()
+        +DeleteTaskAsync()
+        +GetTasksForUserAsync()
+    }
+
+    class SqliteConnection {
+        +OpenAsync()
+        +Close()
+    }
+
+    class SqliteCommand {
+        +ExecuteNonQueryAsync()
+        +ExecuteScalarAsync()
+        +ExecuteReaderAsync()
+    }
+
+    class User {
+        +string Username
+        +string Password
+    }
+
+    class TodoTask {
+        +string Title
+        +string Description
+        +DateTime DueDate
+        +string Status
+        +int Priority
+        +string Notes
+        +bool Completed
+    }
+
+    DatabaseManager --> SqliteConnection : uses
+    DatabaseManager --> SqliteCommand : uses
+    DatabaseManager --> User : manages
+    DatabaseManager --> TodoTask : manages
+
+    SqliteCommand --> User : interacts
+    SqliteCommand --> TodoTask : interacts
+
+```
